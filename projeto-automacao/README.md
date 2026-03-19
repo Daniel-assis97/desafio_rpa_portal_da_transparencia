@@ -26,6 +26,7 @@ Para o robô funcionar, ele precisa da sua "chave" de acesso ao site do governo.
 *Snippet de código:*
 
 CHAVE_API_DADOS=COLE_SUA_CHAVE_AQUI
+
 DISCORD_WEBHOOK_URL=COLE_O_LINK_DO_DISCORD_AQUI
 
 ## Como usar o Robô
