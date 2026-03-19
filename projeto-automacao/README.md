@@ -49,7 +49,7 @@ python main.py 13374917541
 ## Onde estão os resultados?
 Assim que o robô termina, ele avisa na tela:
 
-[INFO] relatorio.json gerado
+[INFO] relato.json gerado
 
 [INFO] parcelas.html gerado
 
