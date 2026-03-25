@@ -53,7 +53,7 @@ def buscar_dados_portal_exaustivo(codigo_beneficiario):
     return todas_as_parcelas
 
 def gerar_documentos(dados, codigo):
-    """Gera arquivos únicos para cada NIS com layout vertical (uma info por linha)."""
+    """Gera arquivos únicos para cada NIS."""
     try:
         nome_json = f"resultado_{codigo}.json"
         nome_html = f"parcelas_{codigo}.html"
