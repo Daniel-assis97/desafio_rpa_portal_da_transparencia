@@ -53,7 +53,7 @@ def buscar_dados_portal_exaustivo(codigo_beneficiario):
     return todas_as_parcelas
 
 def gerar_documentos(dados, codigo):
-    """Gera arquivos únicos para cada NIS para evitar sobreposição."""
+    """Gera arquivos únicos para cada NIS com layout vertical (uma info por linha)."""
     try:
         nome_json = f"resultado_{codigo}.json"
         nome_html = f"parcelas_{codigo}.html"
@@ -63,21 +63,19 @@ def gerar_documentos(dados, codigo):
         
         html_content = f"""
         <html>
-        <head><meta charset="utf-8"><style>
-            body {{ font-family: Arial; padding: 40px; }}
-            h1 {{ font-size: 40px; }}
-            table {{ border-collapse: collapse; width: 100%; font-size: 24px; }}
-            th, td {{ border: 1px solid black; padding: 15px; }}
-            th {{ background-color: #eaeaea; }}
-        </style></head>
+        <head>
+            <meta charset="utf-8">
+            <style>
+                body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; background-color: #f4f4f9; }}
+                h1 {{ color: #333; border-bottom: 2px solid #306699; padding-bottom: 10px; }}
+                table {{ border-collapse: collapse; width: 100%; max-width: 600px; margin-bottom: 30px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }}
+                th, td {{ border: 1px solid #ddd; padding: 12px; text-align: left; }}
+                th {{ background-color: #306699; color: white; width: 30%; }}
+                .separador {{ background-color: #eaeaea; height: 10px; border: none; }}
+            </style>
+        </head>
         <body>
-        <h1>Parcelas do Beneficiário - {codigo}</h1>
-        <table>
-        <tr><th>Nome</th>
-        <th>Mês</th>
-        <th>Parcela</th>
-        <th>Valor</th>
-        <th>Cidade</th></tr>
+        <h1>Relatório de Parcelas - Beneficiário {codigo}</h1>
         """
 
         for item in dados:
@@ -86,9 +84,18 @@ def gerar_documentos(dados, codigo):
             parc = item.get("numeroParcela", "N/A")
             val = item.get("valor", "0.00")
             cid = item.get("municipio", {}).get("nomeIBGE", "N/A")
-            html_content += f"<tr><td>{nome}</td><td>{mes}</td><td>{parc}</td><td>R$ {val}</td><td>{cid}</td></tr>"
+            
+            html_content += f"""
+            <table>
+                <tr><th>Nome</th><td>{nome}</td></tr>
+                <tr><th>Mês</th><td>{mes}</td></tr>
+                <tr><th>Parcela</th><td>{parc}</td></tr>
+                <tr><th>Valor</th><td>R$ {val}</td></tr>
+                <tr><th>Cidade</th><td>{cid}</td></tr>
+            </table>
+            """
 
-        html_content += "</table></body></html>"
+        html_content += "</body></html>"
 
         with open(nome_html, "w", encoding="utf-8") as f:
             f.write(html_content)
